@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Registro de Docente</title>
+  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<script type="text/javascript">
+function validar(e) { 
+tecla = (document.all) ? e.keyCode : e.which;
+if (tecla==8) return true; 
+patron =/[A-Za-z\s]/; 
+te = String.fromCharCode(tecla); 
+return patron.test(te);
+}
+</script>
+<script type="text/javascript">
+function justNumbers(e)
+{
+var keynum = window.event ? window.event.keyCode : e.which;
+if ((keynum == 8) || (keynum == 46))
+return true;
+ 
+return /\d/.test(String.fromCharCode(keynum));
+}
+</script>
+</head>
+<body>
+<div class="container">
+<div th:switch="${session.usuariologeado.cadmin}">
+<div th:case="null">ERROR</div>
+<div th:case="*">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<h1 align="center">Registro de Docente</h1>
+<div class="panel panel-info">
+ <div class="panel-body">
+<p style="color:red" align="center" th:text="${message}"></p>
+	<form  th:object="${docente}" th:action="@{/docente/new}" method="post"> 
+    <div class="form-group">
+	<label for="nombre" >Nombres: </label>
+	<input type="text" class="form-control" id="nombre" th:field="*{nombredocente}" onkeypress="return validar(event)" /> 
+	<span style="color:red" th:if="${#fields.hasErrors('nombredocente')}" th:errors="*{nombredocente}">Nombre no valido</span>
+	</div>
+	<div class="form-group">
+	<label for="apellido" >Apellidos: </label>
+	<input type="text" class="form-control"  id="apellido" th:field="*{apellidodocente}" onkeypress="return validar(event)" /> 
+	<span style="color:red" th:if="${#fields.hasErrors('apellidodocente')}" th:errors="*{apellidodocente}">Nombre no valido</span>
+    </div>
+    <div class="form-group">
+    <label for="dni" >DNI: </label>
+    <input type="text"  class="form-control" id="dni" th:field="*{dni}" maxlength="8" onkeypress="return justNumbers(event);"/>
+    <span style="color:red" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">DNI no valido</span><br/><br/>
+    </div>
+    <div class="form-group">
+    <label for="fnacimiento" >Fecha de Nacimiento: </label>
+    <input type="date" class="form-control" id="fnacimiento" th:field="*{fnacimiento}" />
+    <span style="color:red" th:if="${#fields.hasErrors('fnacimiento')}" th:errors="*{fnacimiento}">Fecha no valida</span>
+    </div>
+    <div class="form-group">
+     <label for="descripcion" >Descripcion: </label>
+     <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4" cols="50"></textarea>
+     <span style="color:red" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Fecha no valida</span>
+    </div>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Guardar</button>
+    </div>
+	</form>
+	</div>
+	</div>
+</div>
+<div class="col-md-3"></div>	
+	<table class="table">
+  <thead class="thead-default">
+   	<tr class="active">
+        <th data-field="cdocente">Codigo</th>
+   		<th data-field="nombredocente">Nombre</th>
+   		<th data-field="apellidodocente">Apellido</th>
+   		<th data-field="dni">DNI</th>
+   		<th data-field="fnacimiento">Fecha de Nacimiento</th>
+   		<th data-field="descripcion">Descripcion</th>
+   	</tr>
+  
+  </thead>
+  <tbody>
+  	<tr class="info" th:each="d:${docentes}">
+    <td th:text="${d.cdocente}"></td>
+    <td th:text="${d.nombredocente}"></td>
+    <td th:text="${d.apellidodocente}"></td>
+    <td th:text="${d.dni}"></td>
+    <td th:text="${d.fnacimiento}"></td>
+    <td th:text="${d.descripcion}"></td>
+    <td><a th:href="${'/editarDocente' + d.cdocente}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
+    <td><a th:href="${'/deletedocente'+d.cdocente}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+    
+    </tr>
+  
+  
+  </tbody>
+  
+  </table>
+  </div>
+  </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Editar Horario</title>
+ <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-2"></div>
+<div class="col-md-8">
+<h1 align="center">Editar Horario</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<form th:object="${horario}" th:action="@{/horario/new}" method="post">
+<input type="hidden" th:field="*{chorario}" />
+  <label>Seccion: </label>
+  <table class="table">
+      <thead>
+      <tr class="success">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Ciclo</th>
+          <th data-field="curso">Curso</th>
+          <th data-field="docente">Docente</th>
+          <th data-field="nummatriculados">Cant. Matriculados</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="s:${secciones}">
+          <td th:text="${s.nombreseccion}"></td>
+          <td th:text="${s.ciclo}"></td>
+          <td th:text="${s.curso.nombrecurso}"></td>
+          <td th:text="${s.docente.nombredocente +' '+s.docente.apellidodocente}"></td>
+          <td th:text="${s.nummatriculados}"></td>
+          <td><input type="radio" th:field="*{seccion.cseccion}"  name="seccion" th:value="${s.cseccion}"></input></td>
+       </tr>
+      </tbody>
+    </table>
+  <br/><br/>
+  <label>Salon: </label>
+  <table class="table">
+      <thead>
+      <tr class="success">
+          <th>Numero</th>
+          <th>Descripcion</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="s:${salones}">
+          <td th:text="${s.nombre}"></td>
+          <td th:text="${s.descripcion}"></td>
+          <td><input type="radio" th:field="*{salon.csalon}"  name="seccion" th:value="${s.csalon}"></input></td>
+       </tr>
+      </tbody>
+    </table>
+  <br/><br/>
+  <div class="form-group">
+  <label>Dia:</label>
+  <select class="form-control" th:field="*{dia}">
+     <option value="Lunes">Lunes</option>
+     <option value="Martes">Martes</option>
+     <option value="Miercoles">Miercoles</option>
+     <option value="Jueves">Jueves</option>
+     <option value="Viernes">Viernes</option>
+     <option value="Sabado">Sabado</option>
+    </select>
+    </div>
+    <span style="color:red" th:if="${#fields.hasErrors('dia')}" th:errors="*{dia}">Nombre no valido</span><br/><br/>
+   <div class="form-group">
+   <label>Hora de Inicio:</label>
+   <input type="number" class="form-control" th:field="*{horainicio}" min="7" max="22"></input>
+    <span style="color:red" th:if="${#fields.hasErrors('horainicio')}" th:errors="*{horainicio}">Nombre no valido</span><br/><br/>
+    </div>
+    <div class="form-group">
+    <label>Hora de Termino: </label>
+   <input type="number" class="form-control" th:field="*{horafin}" min="8" max="23"></input>
+    <span style="color:red" th:if="${#fields.hasErrors('horafin')}" th:errors="*{horafin}">Nombre no valido</span><br/><br/>
+    </div>
+    <p style="color:red" th:text="${messagehorasnovalidas}"></p>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Guardar</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-2"></div>
+<p th:text="${message}"></p>
+</div>
+</body>
+</html>

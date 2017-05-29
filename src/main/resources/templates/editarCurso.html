@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Editar Curso</title>
+<!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<h1 align="center">Editar Curso</h1><br/>
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<div class="panel panel-info">
+ <div class="panel-body">
+<form th:object="${curso}" th:action="@{/curso/new}" method="post">
+<input type="hidden" th:field="*{ccurso}" />
+<div class="form-group">
+  <label for="nombrecurso" >Nombre del Curso:</label>
+  <input type="text" id="nombrecurso" class="form-control" th:field="*{nombrecurso}" />
+  <span style="color:red" th:if="${#fields.hasErrors('nombrecurso')}" th:errors="*{nombrecurso}">Nombre no valido</span>
+ </div>
+ <div class="form-group">
+  <label>Modalidad:</label><br/>
+  <input type="radio" th:field="*{modalidad}" name="mod" value="Pregrado"/> Pregrado 
+  <input type="radio" th:field="*{modalidad}" name="mod" value="Postgrado"/> Postgrado 
+  <input type="radio" th:field="*{modalidad}" name="mod" value="EPE"/> EPE 
+  <span style="color:red" th:if="${#fields.hasErrors('modalidad')}" th:errors="*{modalidad}">Nombre no valido</span> 
+ </div>
+ <div class="form-group">
+  <label for="facultad" >Facultad: </label>
+<select class="form-control" id="facultad" th:field="*{facultad}">
+ <option value="Negocios">Negocios</option>
+ <option value="Ingenieria">Ingenieria</option>
+ <option value="Ciencias de la salud">Ciencias de la salud</option>
+ <option value="Comunicaciones">Comunicaciones</option>
+ <option value="Educacion">Educacion</option>
+ <option value="Diseño">Diseño</option>
+</select>
+<span style="color:red" th:if="${#fields.hasErrors('facultad')}" th:errors="*{facultad}">Nombre no valido</span> 
+</div>
+<div class="form-group">
+ <label>Sede:</label> <br/>
+  <input type="checkbox" th:field="*{sede}"  name="sede" value="VI "/> Sede Villa<br/>
+  <input type="checkbox" th:field="*{sede}" name="sede" value="SI "/> Sede San Isidro<br/>
+  <input type="checkbox" th:field="*{sede}" name="sede" value="MO "/> Sede Monterrico<br/>
+  <input type="checkbox" th:field="*{sede}" name="sede" value="SM "/> Sede San Miguel<br/>
+<span style="color:red" th:if="${#fields.hasErrors('sede')}" th:errors="*{sede}">Nombre no valido</span>  
+</div>
+<div class="form-group">
+ <label for="descripcion" >Descripcion:</label>
+ <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4" cols="50">
+ </textarea>
+ <span style="color:red" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Nombre no valido</span>
+</div>
+<div align="center">
+<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Guardar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-3"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Editar Alumno</title>
+  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+<script type="text/javascript">
+function validar(e) { 
+tecla = (document.all) ? e.keyCode : e.which;
+if (tecla==8) return true; 
+patron =/[A-Za-z\s]/; 
+te = String.fromCharCode(tecla); 
+return patron.test(te);
+}
+</script>
+<script type="text/javascript">
+function justNumbers(e)
+{
+var keynum = window.event ? window.event.keyCode : e.which;
+if ((keynum == 8) || (keynum == 46))
+return true;
+ 
+return /\d/.test(String.fromCharCode(keynum));
+}
+</script>
+</head>
+<body>
+<div class="container">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<h1 align="center">Editar Alumno</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<form th:object="${alumno}" th:action="@{/alumno/new}" method="post">
+
+<input type="hidden" th:field="*{calumno}" />
+ <div class="form-group">
+  <label for="nombre" >Nombre: </label>
+  <input type="text" class="form-control"  th:field="*{nombrealumno}" onkeypress="return validar(event)" />
+  <span style="color:red" th:if="${#fields.hasErrors('nombrealumno')}" th:errors="*{nombrealumno}">Nombre no valido</span>
+ </div>
+<div class="form-group">
+ <label for="apellido" >Apellido: </label>
+ <input type="text" class="form-control" id="apellido" th:field="*{apellidoalumno}" onkeypress="return validar(event)"/>
+ <span style="color:red" th:if="${#fields.hasErrors('apellidoalumno')}" th:errors="*{apellidoalumno}">Apellido no valido</span>
+</div>
+<div class="form-group">
+ <label for="periodoingreso" >Periodo de Ingreso:</label>
+<select class="form-control" id="periodoingreso" th:field="*{periodoingreso}">
+ <option value="2017-1">2017-1</option>
+ <option value="2016-2">2016-2</option>
+ <option value="2016-1">2016-1</option>
+ <option value="2015-2">2015-2</option>
+ <option value="2015-1">2015-1</option>
+ <option value="2014-2">2014-2</option>
+ <option value="2014-1">2014-1</option>
+ <option value="2013-2">2013-2</option>
+ <option value="2013-1">2013-1</option>
+</select>
+</div>
+<div class="form-group">
+ <label for="dni" >DNI: </label>
+ <input id="dni" class="form-control"  type="text" th:field="*{dni}" maxlength="8" onkeypress="return justNumbers(event);"/>
+ <span style="color:red" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">DNI no valido</span>
+</div>
+<div class="form-group">
+<label for="colegio" >Colegio de procedencia:</label>
+<input id="colegio" class="form-control" type="text" th:field="*{colegio}"/>
+<span style="color:red" th:if="${#fields.hasErrors('colegio')}" th:errors="*{colegio}">Colegio no valido</span>
+</div>
+<div class="form-group">
+ <label for="carrera" >Carrera:</label>
+<select class="form-control" id="carrera" th:field="*{carrera}">
+ <option value="Ingenieria de Sistemas">Ingenieria de Sistemas</option>
+ <option value="Ingenieria Industrial">Ingenieria Industrial</option>
+ <option value="Ingenieria de Software">Ingenieria de Software</option>
+ <option value="Marketing">Marketing</option>
+ <option value="Negocios">Negocios</option>
+ <option value="Diseñador Grafico">Diseñador Grafico</option>
+</select>
+</div>
+<div class="form-group">
+ <label for="fnacimientoalumno" >Fecha de Nacimiento: </label>
+ <input id="fnacimientoalumno" class="form-control"  type="date" th:field="*{fnacimientoalumno}" />
+ <span style="color:red" th:if="${#fields.hasErrors('fnacimientoalumno')}" th:errors="*{fnacimientoalumno}">Fecha no valida</span>
+</div>
+<div class="form-group">
+  <label>Sexo:</label>
+  <label class="radio-inline"><input type="radio" th:field="*{genero}"  name="sexo" value="Masculino"/> Masculino</label>
+  <label class="radio-inline"><input type="radio" th:field="*{genero}"  name="sexo" value="Femenino"/> Femenino</label>
+<span style="color:red" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}">Fecha no valida</span><br/><br/>
+</div>
+ <div align="center">
+<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Guardar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-3"></div>
+</div>
+<br/>
+<a th:href="@{/}">Regresar al Inicio</a><br/>
+<br/>
+</body>
+</html>

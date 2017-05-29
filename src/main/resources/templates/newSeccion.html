@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Registro de Sección</title>
+   <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<div th:switch="${session.usuariologeado.cadmin}">
+<div th:case="null">ERROR</div>
+<div th:case="*">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-2"></div>
+<div class="col-md-8">
+<h1 align="center">Registro de Seccion</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<p style="color:red" align="center" th:text="${message}"></p>
+    <form th:object="${seccion}" th:action="@{/seccion/new}" method="post">
+    <div class="form-group">
+    <label for="nombreseccion" >Codigo: </label>
+    <input type="text" class="form-control" id="nombreseccion"  th:field="*{nombreseccion}" />
+    <span style="color:red" th:if="${#fields.hasErrors('nombreseccion')}" th:errors="*{nombreseccion}">Apellido no valido</span><br/><br/>
+    </div>
+    <label for="ciclo" >Ciclo:</label>
+    <select id="ciclo" class="form-control" th:field="*{ciclo}">
+     <option value="Primero">Primero</option>
+     <option value="Segundo">Segundo</option>
+     <option value="Tercero">Tercero</option>
+     <option value="Cuarto">Cuarto</option>
+     <option value="Quinto">Quinto</option>
+     <option value="Sexto">Sexto</option>
+     <option value="Septimo">Septimo</option>
+     <option value="Octavo">Octavo</option>
+     <option value="Noveno">Noveno</option>
+     <option value="Decimo">Decimo</option>
+    </select>
+    <br/><br/>
+    <label>Curso:</label>
+     <table class="table table-bordered">
+      <thead class="thead-inverse">
+      <tr class="success">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Nombre</th>
+          <th data-field="curso">Modalidad</th>
+          <th data-field="docente">Facultad</th>
+          <th data-field="nummatriculados">Sede</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="c:${cursos}">
+          <td th:text="${c.ccurso}"></td>
+          <td th:text="${c.nombrecurso}"></td>
+          <td th:text="${c.modalidad}"></td>
+          <td th:text="${c.facultad}"></td>
+          <td th:text="${c.sede}"></td>
+          <td><input type="radio" th:field="*{curso.ccurso}"  name="curso" th:value="${c.ccurso}"></input></td>
+       </tr>
+      </tbody>
+    </table>   
+    <br/>
+    <br/>
+    <label>Docente:</label>
+         <table class="table table-bordered">
+      <thead class="thead-inverse">
+      <tr class="success">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Nombre</th>
+          <th data-field="curso">Apellido</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="d:${docentes}">
+          <td th:text="${d.cdocente}"></td>
+          <td th:text="${d.nombredocente}"></td>
+          <td th:text="${d.apellidodocente}"></td>
+          <td><input type="radio" th:field="*{docente.cdocente}"  name="docente" th:value="${d.cdocente}"></input></td>
+       </tr>
+      </tbody>
+    </table>   
+    <br/>
+    <br/>
+    <input type="hidden" th:field="*{nummatriculados}" value="0"></input>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Guardar</button>
+    </div>
+    </form>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-2"></div>
+    <table class="table">
+      <thead class="thead-default">
+      <tr class="active">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Ciclo</th>
+          <th data-field="curso">Curso</th>
+          <th data-field="docente">Docente</th>
+          <th data-field="nummatriculados">Cant. Matriculados</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="info" th:each="s:${secciones}">
+          <td th:text="${s.nombreseccion}"></td>
+          <td th:text="${s.ciclo}"></td>
+          <td th:text="${s.curso.nombrecurso}"></td>
+          <td th:text="${s.docente.nombredocente +' '+s.docente.apellidodocente}"></td>
+          <td th:text="${s.nummatriculados}"></td>
+          <td><a th:href="${'/editarSeccion' + s.cseccion}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
+          <td><a th:href="${'/deleteSeccion' + s.cseccion}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+       </tr>
+      </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Editar Salon</title>
+  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-4"></div>
+<div class="col-md-4">
+<h1 align="center">Editar Salon</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<form th:object="${salon}" th:action="@{/salon/new}" method="post">
+
+<input type="hidden" th:field="*{csalon}" />
+<div class="form-group">
+	<label for="nombre" >Numero: </label>
+	<input type="number" class="form-control" id="nombre" th:field="*{nombre}" min="100" max="999"></input> 
+	<span style="color:red" th:if="${#fields.hasErrors('nombre')}" th:errors="*{number}">Nombre no valido</span><br/><br/>
+    </div>
+    <div class="form-group">
+    <label for="descripcion" >Descripcion:</label>
+    <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4" cols="50"></textarea>
+    <span style="color:red" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Nombre no valido</span><br/><br/>
+    </div>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span> Guardar</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-4"></div>
+</div>
+</body>
+</html>

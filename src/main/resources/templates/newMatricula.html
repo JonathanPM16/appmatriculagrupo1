@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Registro de Matricula</title>
+  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<div th:switch="${session.usuariologeado.cadmin}">
+<div th:case="null">ERROR</div>
+<div th:case="*">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-2"></div>
+<div class="col-md-8">
+<h1 align="center">Registro de Matricula</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<p style="color:red" align="center" th:text="${message}"></p>
+<form th:object="${matricula}" th:action="@{/matricula/new}" method="post">
+   <label>Alumno:</label>
+   <table class="table table-bordered">
+  <thead>
+   	<tr class="success">
+        <th data-field="calumno">Codigo</th>
+   		<th data-field="nombrealumno">Nombre</th>
+   		<th data-field="apellidoalumno">Apellido</th>
+   		<th data-field="periodoingreso">Periodo de ingreso</th>
+   		<th data-field="carrera">Carrera</th>
+   	</tr>
+  
+  </thead>
+  <tbody>
+  	<tr class="success" th:each="a:${alumnos}">
+    <td th:text="${a.calumno}"></td>
+    <td th:text="${a.nombrealumno}"></td>
+    <td th:text="${a.apellidoalumno}"></td>
+    <td th:text="${a.periodoingreso}"></td>
+    <td th:text="${a.carrera}"></td>
+    <td><input type="radio" th:field="*{alumno.calumno}"  name="alumno" th:value="${a.calumno}"></input>
+    </td>  
+    </tr>
+  </tbody>
+  </table>
+    <label>Secciones con Vacantes:</label>
+      <table class="table table-bordered">
+      <thead class="thead-inverse">
+      <tr class="success">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Ciclo</th>
+          <th data-field="curso">Curso</th>
+          <th data-field="docente">Docente</th>
+          <th data-field="nummatriculados">Cant. Matriculados</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="s:${secciones}">
+          <td th:text="${s.nombreseccion}"></td>
+          <td th:text="${s.ciclo}"></td>
+          <td th:text="${s.curso.nombrecurso}"></td>
+          <td th:text="${s.docente.nombredocente +' '+s.docente.apellidodocente}"></td>
+          <td th:text="${s.nummatriculados}"></td>
+          <td><input type="radio" th:field="*{seccion.cseccion}"  name="seccion" id="seccion" th:value="${s.cseccion}"></input></td>
+       </tr>
+      </tbody>
+    </table>
+    <label>Secciones Llenas (30 alumnos):</label>
+      <table class="table table-bordered">
+      <thead class="thead-inverse">
+      <tr class="success">
+          <th data-field="nombreseccion">Codigo</th>
+          <th data-field="ciclo">Ciclo</th>
+          <th data-field="curso">Curso</th>
+          <th data-field="docente">Docente</th>
+          <th data-field="nummatriculados">Cant. Matriculados</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="success" th:each="sll:${seccionesllenas}">
+          <td th:text="${sll.nombreseccion}"></td>
+          <td th:text="${sll.ciclo}"></td>
+          <td th:text="${sll.curso.nombrecurso}"></td>
+          <td th:text="${sll.docente.nombredocente +' '+sll.docente.apellidodocente}"></td>
+          <td th:text="${sll.nummatriculados}"></td>
+       </tr>
+      </tbody>
+    </table>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Guardar</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
+<div class="col-md-2"></div>
+<table class="table">
+      <thead class="thead-default">
+      <tr class="active">
+          <th>Codigo</th>
+          <th>Alumno</th>
+          <th>Curso</th>
+          <th>Cant. Matriculados</th>
+      </tr>
+      </thead>
+      <tbody>
+       <tr class="info" th:each="m:${matriculas}">
+          <td th:text="${m.cmatricula}"></td>
+          <td th:text="${m.alumno.nombrealumno + ' ' +m.alumno.apellidoalumno}"></td>
+          <td th:text="${m.seccion.nombreseccion+ ' '+m.seccion.curso.nombrecurso}"></td>
+          <td th:text="${m.seccion.nummatriculados}"></td>
+          <td><a th:href="${'/editarMatricula' + m.cmatricula}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
+          <td><a th:href="${'/deleteMatricula' + m.cmatricula}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+       </tr>
+      </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+</body>
+</html>

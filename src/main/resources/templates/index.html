@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Aplicacion Matricula</title>
+   <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<div th:switch="${session.usuariologeado.cadmin}">
+<div th:case="null">ERROR</div>
+<div th:case="*">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<h1 align="center"> Bienvenido</h1>
+<div align="center">
+<div class="panel panel-info">
+ <div class="panel-body">
+<a th:href="@{/nuevoalumno}" class="btn btn-primary" role="button">Registro de Alumnos</a><br/><br/>
+<a th:href="@{/nuevodocente}" class="btn btn-primary" role="button">Registro de Docentes</a><br/><br/>
+<a th:href="@{/nuevocurso}" class="btn btn-primary" role="button">Registro de Cursos</a><br/><br/>
+<a th:href="@{/nuevosalon}" class="btn btn-primary" role="button">Registro de Salones</a><br/><br/>
+<a th:href="@{/nuevaseccion}" class="btn btn-primary" role="button">Registro de Secciones</a><br/><br/>
+<a th:href="@{/nuevohorario}" class="btn btn-primary" role="button">Registro de Horarios</a><br/><br/>
+<a th:href="@{/nuevamatricula}" class="btn btn-primary" role="button">Registro de Matricula</a><br/><br/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

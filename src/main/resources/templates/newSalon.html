@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="es">
+<title>Registro de Salon</title>
+  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+<div class="container">
+<div th:switch="${session.usuariologeado.cadmin}">
+<div th:case="null">ERROR</div>
+<div th:case="*">
+<!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
+<div class="col-md-3"></div>
+<div class="col-md-6">
+<h1 align="center">Registro de Salon</h1><br/>
+<div class="panel panel-info">
+ <div class="panel-body">
+<p style="color:red" align="center" th:text="${message}"></p>
+	<form  th:object="${salon}" th:action="@{/salon/new}" method="post">
+	<div class="form-group">
+	<label for="nombre" >Numero: </label>
+	<input type="number" class="form-control" id="nombre" th:field="*{nombre}" min="100" max="999"></input> 
+	<span style="color:red" th:if="${#fields.hasErrors('nombre')}" th:errors="*{number}">Nombre no valido</span><br/><br/>
+    </div>
+    <div class="form-group">
+    <label for="descripcion" >Descripcion:</label>
+    <textarea class="form-control" id="descripcion" th:field="*{descripcion}" rows="4" cols="50"></textarea>
+    <span style="color:red" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Nombre no valido</span><br/><br/>
+    </div>
+    <div align="center">
+      <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Guardar</button>
+    </div>
+	</form>
+	</div>
+	</div>
+</div>
+<div class="col-md-3"></div>
+<div class="col-md-12">
+	<table class="table">
+  <thead class="thead-default">
+   	<tr class="active">
+        <th data-field="csalon">Numero de salón</th>
+   		<th data-field="descripcion">Descripcion del Salon</th>
+   	</tr>
+  
+  </thead>
+  <tbody>
+  	<tr class="info" th:each="s:${salones}">
+    <td th:text="${s.nombre}"></td>
+    <td th:text="${s.descripcion}"></td>
+    <td><a th:href="${'/editarSalon' + s.csalon}"  class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
+    <td><a th:href="${'/deletesalon'+s.csalon}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+    
+    </tr>
+  
+  
+  </tbody>
+  
+  </table>
+  </div>
+  </div>
+  </div>
+  </div>
+</body>
+</html>
