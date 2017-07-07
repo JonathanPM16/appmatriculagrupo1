@@ -8,4 +8,5 @@ public interface cursoService {
 	Iterable<curso> listAllCurso();
 	void deleteCurso(int id);
 	curso getporccurso(int ccurso);
+	curso validarcursorepetido(curso c);
 }

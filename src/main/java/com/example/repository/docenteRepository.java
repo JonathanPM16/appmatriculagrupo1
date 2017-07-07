@@ -11,4 +11,5 @@ import com.example.entities.docente;
 @Transactional
 public interface docenteRepository extends CrudRepository<docente, Integer> {
 
+	docente findByDni(String dni);
 }

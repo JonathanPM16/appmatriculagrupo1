@@ -37,6 +37,12 @@ public class alumnoServiceImpl implements alumnoService {
 		return alumnorep.findOne(calumno);
 	}
 
+	@Override
+	public alumno getporDNI(String dni) {
+		// TODO Auto-generated method stub
+		return alumnorep.findByDni(dni);
+	}
+
 
 
 

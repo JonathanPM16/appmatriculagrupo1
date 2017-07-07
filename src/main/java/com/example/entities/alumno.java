@@ -14,27 +14,27 @@ public class alumno {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int calumno;
 	
-	@Size(min=2, max=20)
+	@Size(min=2, max=20,message="El nombre del alumno debe contener entre 2 a 20 caracteres")
     private String nombrealumno;
-	@Size(min=2, max=20)
+	@Size(min=2, max=20,message="El apellido del alumno debe contener entre 2 a 20 caracteres")
     private String apellidoalumno;
     
     @Size(min=6, max=6)
     private String periodoingreso;
     
-    @Size(min=8, max=8)
+    @Size(min=8, max=8,message="El DNI debe contener unicamente 8 cifras")
     private String dni;
     
-    @Size(min=2, max=20)
+    @Size(min=2, max=20,message="El colegio debe contener entre 2 a 20 caracteres")
     private String colegio;
     
     @Size(min=2, max=45)
     private String carrera;
     
-    @Size(min=10, max=10)
+    @Size(min=10, max=10,message="Coloca una fecha")
     private String fnacimientoalumno;
     
-    @Size(min=8, max=9)
+    @Size(min=8, max=9,message="Selecciona un genero")
     private String genero;
     
 	public int getCalumno() {

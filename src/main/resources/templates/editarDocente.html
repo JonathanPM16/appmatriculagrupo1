@@ -23,17 +23,24 @@ return /\d/.test(String.fromCharCode(keynum));
 }
 </script>
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <h1 align="center">Editar Docente</h1>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:red" th:text="${messageespacios}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
-<form th:object="${docente}" th:action="@{/docente/new}" method="post">
+<form th:object="${docente}" th:action="@{/docente/update}" method="post">
 
 <input type="hidden" th:field="*{cdocente}" />
+<input type="hidden" th:field="*{fnacimiento}" />
+<input type="hidden" th:field="*{dni}" />
     <div class="form-group">
 	<label for="nombre" >Nombres: </label>
 	<input type="text" class="form-control" id="nombre" th:field="*{nombredocente}" onkeypress="return validar(event)" /> 
@@ -43,16 +50,6 @@ return /\d/.test(String.fromCharCode(keynum));
 	<label for="apellido" >Apellidos: </label>
 	<input type="text" class="form-control"  id="apellido" th:field="*{apellidodocente}" onkeypress="return validar(event)" /> 
 	<span style="color:red" th:if="${#fields.hasErrors('apellidodocente')}" th:errors="*{apellidodocente}">Nombre no valido</span>
-    </div>
-    <div class="form-group">
-    <label for="dni" >DNI: </label>
-    <input type="text"  class="form-control" id="dni" th:field="*{dni}" maxlength="8" onkeypress="return justNumbers(event);"/>
-    <span style="color:red" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">DNI no valido</span><br/><br/>
-    </div>
-    <div class="form-group">
-    <label for="fnacimiento" >Fecha de Nacimiento: </label>
-    <input type="date" class="form-control" id="fnacimiento" th:field="*{fnacimiento}" />
-    <span style="color:red" th:if="${#fields.hasErrors('fnacimiento')}" th:errors="*{fnacimiento}">Fecha no valida</span>
     </div>
     <div class="form-group">
      <label for="descripcion" >Descripcion: </label>

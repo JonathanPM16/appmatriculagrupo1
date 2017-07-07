@@ -4,7 +4,7 @@
 <title>Registro de Salon</title>
   <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <div th:switch="${session.usuariologeado.cadmin}">
 <div th:case="null">ERROR</div>
@@ -13,6 +13,10 @@
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <h1 align="center">Registro de Salon</h1><br/>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
 <p style="color:red" align="center" th:text="${message}"></p>
@@ -20,7 +24,8 @@
 	<div class="form-group">
 	<label for="nombre" >Numero: </label>
 	<input type="number" class="form-control" id="nombre" th:field="*{nombre}" min="100" max="999"></input> 
-	<span style="color:red" th:if="${#fields.hasErrors('nombre')}" th:errors="*{number}">Nombre no valido</span><br/><br/>
+	<span style="color:red" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Nombre no valido</span><br/><br/>
+    <p style="color:red" th:text="${messagesalon}"></p>
     </div>
     <div class="form-group">
     <label for="descripcion" >Descripcion:</label>
@@ -49,7 +54,7 @@
     <td th:text="${s.nombre}"></td>
     <td th:text="${s.descripcion}"></td>
     <td><a th:href="${'/editarSalon' + s.csalon}"  class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
-    <td><a th:href="${'/deletesalon'+s.csalon}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+    <td><a href="#" class="btn btn-danger linkDelete" th:id="${s.csalon}"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
     
     </tr>
   
@@ -57,9 +62,52 @@
   </tbody>
   
   </table>
+  <h3 style="color:red" th:text="${messagevacio}" align="center"></h3>
   </div>
   </div>
   </div>
   </div>
+  <!-- Modal -->
+	<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Eliminar Salon</h4>
+				</div>
+				<div class="modal-body">
+					<p>Desea eliminar el salon seleccionado?</p>
+					<p style="color:red">Nota: si el salon esta asignado a un horario no se podra eliminar del sistema</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+					<button id="btnDelete" class="btn btn-danger">
+						<i class="glyphicon glyphicon-remove-sign"></i> Eliminar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+	<script type="text/javascript">
+		$(function() {
+
+			var idAlumno = null;
+
+			$('.linkDelete').on('click', function(e) {
+				e.preventDefault();
+				$('#modalDelete').modal();
+				idAlumno = $(this).attr('id');
+			});
+
+			$('#btnDelete').on('click', function() {
+				location.href = "/deletesalon" + idAlumno;
+			});
+
+		});
+	</script>
 </body>
 </html>

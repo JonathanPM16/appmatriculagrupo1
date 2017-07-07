@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 
 @Entity
 public class horario {
@@ -16,15 +19,18 @@ public class horario {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int chorario;
 	
+	@Size(min=2,max=70,message="seleccione un dia")
 	private String dia;
 	
+	@NotNull(message="llene este campo")
 	@Min(7)
 	@Max(22)
-	private int horainicio;
+	private int horainicio=7;
 	
+	@NotNull(message="llene este campo")
 	@Min(8)
 	@Max(23)
-	private int horafin;
+	private int horafin=8;
 	
 	@ManyToOne
 	@JoinColumn(name="cseccion")

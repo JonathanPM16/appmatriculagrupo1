@@ -36,4 +36,10 @@ public class cursoServiceImpl  implements cursoService{
 		return cursorep.findOne(ccurso);
 	}
 
+	@Override
+	public curso validarcursorepetido(curso c) {
+		// TODO Auto-generated method stub
+		return cursorep.findByNombrecursoAndModalidadAndFacultadAndSede(c.getNombrecurso(), c.getModalidad(), c.getFacultad(), c.getSede());
+	}
+
 }

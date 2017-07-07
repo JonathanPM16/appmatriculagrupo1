@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -13,19 +14,21 @@ public class curso {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int ccurso;
 	
-	@Size(min=2,max=70)
+	@Size(min=2,max=70,message="El nombre del curso debe contener entre 2 a 70 caracteres")
 	private String nombrecurso;
 	
-	@Size(min=2,max=10)
+	@NotNull(message="Elige una modalidad")
+	@Size(min=2,max=10,message="Elige una modalidad")
 	private String modalidad;
 	
-	@Size(min=2,max=50)
+	@Size(min=2,max=50,message="Elige una facultad")
 	private String facultad;
 	
-	@Size(min=2,max=50)
+	@NotNull(message="Elige una sede")
+	@Size(min=2,max=50,message="Elige una sede")
 	private String sede;
 	
-	@Size(min=7,max=45)
+	@Size(min=7,max=45,message="La descripción debe contener entre 7 a 45 caracteres")
 	
 	private String descripcion;
 	public int getCcurso() {

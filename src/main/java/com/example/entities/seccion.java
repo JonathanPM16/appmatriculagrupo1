@@ -17,9 +17,10 @@ public class seccion {
    @GeneratedValue(strategy=GenerationType.AUTO)
    private int cseccion;
    
-   @Size(min=4,max=4)
+   @Size(min=4,max=4, message="el nombre de la seccion debe contar unicamente con 4 caracteres")
    private String nombreseccion;
    
+   @Size(min=2,max=20, message="seleccione un ciclo")
    private String ciclo;
    
    @ManyToOne

@@ -8,4 +8,5 @@ public interface docenteService {
 	Iterable<docente> listAllDocente();
 	void deleteDocente(int id);
 	docente getporcdocente(int cdocente);
+	docente getporDNI(String dni);
 }

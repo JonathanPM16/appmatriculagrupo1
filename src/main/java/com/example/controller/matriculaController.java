@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entities.horario;
 import com.example.entities.matricula;
@@ -66,11 +67,14 @@ public class matriculaController {
 		model.addAttribute("seccionesllenas", seccionSer.listarSeccionIgual(30));
 		model.addAttribute("matricula", new matricula());
 		model.addAttribute("matriculas", matriculaSer.ListAllMatricula());
+		if(matriculaSer.ListAllMatricula().spliterator().getExactSizeIfKnown()==0){
+			model.addAttribute("messagevacio", "NO HAY REGISTROS");
+		}
 		return "newMatricula";
 	}
 	
 	@RequestMapping(value="/matricula/new", method=RequestMethod.POST)
-	public String saveMatricula(@Valid matricula m, BindingResult result, Model model){
+	public String saveMatricula(@Valid matricula m, BindingResult result, Model model, RedirectAttributes ra){
 	   try {
 		if (result.hasErrors()) {
 			model.addAttribute("message", result.toString());
@@ -78,6 +82,19 @@ public class matriculaController {
 			model.addAttribute("secciones", seccionSer.listarSeccionMenor(30));
 			model.addAttribute("seccionesllenas", seccionSer.listarSeccionIgual(30));
 			model.addAttribute("matriculas", matriculaSer.ListAllMatricula());
+			if(matriculaSer.ListAllMatricula().spliterator().getExactSizeIfKnown()==0){
+				model.addAttribute("messagevacio", "NO HAY REGISTROS");
+			}
+			return "newMatricula";
+		}else if(m.getAlumno()==null || m.getSeccion()==null){
+			model.addAttribute("message", "por favor seleccione todos los campos");
+			model.addAttribute("alumnos", alumnoSer.listAllAlumno());
+			model.addAttribute("secciones", seccionSer.listarSeccionMenor(30));
+			model.addAttribute("seccionesllenas", seccionSer.listarSeccionIgual(30));
+			model.addAttribute("matriculas", matriculaSer.ListAllMatricula());
+			if(matriculaSer.ListAllMatricula().spliterator().getExactSizeIfKnown()==0){
+				model.addAttribute("messagevacio", "NO HAY REGISTROS");
+			}
 			return "newMatricula";
 		}
 		seccion s=seccionSer.GetSeccion(m.getSeccion().getCseccion());
@@ -90,11 +107,15 @@ public class matriculaController {
 			model.addAttribute("secciones", seccionSer.listarSeccionMenor(30));
 			model.addAttribute("seccionesllenas", seccionSer.listarSeccionIgual(30));
 			model.addAttribute("matriculas", matriculaSer.ListAllMatricula());
+			if(matriculaSer.ListAllMatricula().spliterator().getExactSizeIfKnown()==0){
+				model.addAttribute("messagevacio", "NO HAY REGISTROS");
+			}
 			return "newMatricula";
 		}
 		matriculaSer.saveMatricula(m);
 		s.setNummatriculados(matriculaSer.listarXSeccion(s).size());
 		seccionSer.saveSeccion(s);	
+		ra.addFlashAttribute("messageregistro", "Matricula registrada con exito");	
 		return "redirect:/nuevamatricula";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -103,17 +124,21 @@ public class matriculaController {
 			model.addAttribute("secciones", seccionSer.listarSeccionMenor(30));
 			model.addAttribute("seccionesllenas", seccionSer.listarSeccionIgual(30));
 			model.addAttribute("matriculas", matriculaSer.ListAllMatricula());
+			if(matriculaSer.ListAllMatricula().spliterator().getExactSizeIfKnown()==0){
+				model.addAttribute("messagevacio", "NO HAY REGISTROS");
+			}
 			return "newMatricula";
 		}
 	}
 	
 	@RequestMapping(value="/deleteMatricula{cmatricula}")
-	public String deleteMatricula(@PathVariable("cmatricula") int cmatricula, Model model){
+	public String deleteMatricula(@PathVariable("cmatricula") int cmatricula, Model model, RedirectAttributes ra){
 		matricula m=matriculaSer.getbyCmatricula(cmatricula);
 		seccion s=seccionSer.GetSeccion(m.getSeccion().getCseccion());
 		matriculaSer.deleteMatricula(cmatricula);
 		s.setNummatriculados(matriculaSer.listarXSeccion(s).size());
 		seccionSer.saveSeccion(s);
+		ra.addFlashAttribute("messageexito", "Matricula eliminada del sistema con exito");
 		return "redirect:/nuevamatricula";
 	}
 	

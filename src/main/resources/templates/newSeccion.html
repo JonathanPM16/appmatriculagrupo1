@@ -4,7 +4,7 @@
 <title>Registro de Sección</title>
    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <div th:switch="${session.usuariologeado.cadmin}">
 <div th:case="null">ERROR</div>
@@ -13,9 +13,13 @@
 <div class="col-md-2"></div>
 <div class="col-md-8">
 <h1 align="center">Registro de Seccion</h1><br/>
+<h3 align="center" style="color:red" th:text="${message}"></h3>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
-<p style="color:red" align="center" th:text="${message}"></p>
     <form th:object="${seccion}" th:action="@{/seccion/new}" method="post">
     <div class="form-group">
     <label for="nombreseccion" >Codigo: </label>
@@ -107,12 +111,55 @@
           <td th:text="${s.docente.nombredocente +' '+s.docente.apellidodocente}"></td>
           <td th:text="${s.nummatriculados}"></td>
           <td><a th:href="${'/editarSeccion' + s.cseccion}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
-          <td><a th:href="${'/deleteSeccion' + s.cseccion}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+          <td><a href="#" class="btn btn-danger linkDelete" th:id="${s.cseccion}"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>   
        </tr>
       </tbody>
     </table>
+    <h3 style="color:red" th:text="${messagevacio}" align="center"></h3>
     </div>
     </div>
     </div>
+    <!-- Modal -->
+	<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Eliminar Seccion</h4>
+				</div>
+				<div class="modal-body">
+					<p>¿Desea eliminar la seccion seleccionada?</p>
+					<p style="color:red">Nota: si hay alumnos matriculados en la seccion no se podra eliminar del sistema</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+					<button id="btnDelete" class="btn btn-danger">
+						<i class="glyphicon glyphicon-remove-sign"></i> Eliminar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+	<script type="text/javascript">
+		$(function() {
+
+			var idAlumno = null;
+
+			$('.linkDelete').on('click', function(e) {
+				e.preventDefault();
+				$('#modalDelete').modal();
+				idAlumno = $(this).attr('id');
+			});
+
+			$('#btnDelete').on('click', function() {
+				location.href = "/deleteSeccion" + idAlumno;
+			});
+
+		});
+	</script>
 </body>
 </html>

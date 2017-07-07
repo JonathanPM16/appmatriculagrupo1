@@ -4,7 +4,7 @@
 <title>Registro de Curso</title>
 <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <div th:switch="${session.usuariologeado.cadmin}">
 <div th:case="null">ERROR</div>
@@ -13,6 +13,12 @@
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <h1 align="center">Registro de Curso</h1><br/>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:red" th:text="${messageespacios}"></h3>
+<h3 align="center" style="color:green" th:text="${message}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
 <p style="color:red" align="center" th:text="${message}"></p>
@@ -24,9 +30,9 @@
  </div>
  <div class="form-group">
   <label>Modalidad:</label><br/>
-  <input type="radio" th:field="*{modalidad}" name="mod" value="Pregrado"/> Pregrado 
+  <input type="radio" th:field="*{modalidad}" name="mod" value="Pregrado" checked="checked"/> Pregrado 
   <input type="radio" th:field="*{modalidad}" name="mod" value="Postgrado"/> Postgrado 
-  <input type="radio" th:field="*{modalidad}" name="mod" value="EPE"/> EPE 
+  <input type="radio" th:field="*{modalidad}" name="mod" value="EPE"/> EPE <br/>
   <span style="color:red" th:if="${#fields.hasErrors('modalidad')}" th:errors="*{modalidad}">Nombre no valido</span> 
  </div>
  <div class="form-group">
@@ -43,10 +49,10 @@
 </div>
 <div class="form-group">
  <label>Sede:</label> <br/>
-  <input type="checkbox"  th:field="*{sede}" name="sede" value="VI "/> Sede Villa<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="SI "/> Sede San Isidro<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="MO "/> Sede Monterrico<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="SM "/> Sede San Miguel<br/>
+  <input type="radio"  th:field="*{sede}" name="sede" value="VI " checked="checked"/> Sede Villa<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="SI "/> Sede San Isidro<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="MO "/> Sede Monterrico<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="SM "/> Sede San Miguel<br/>
 <span style="color:red" th:if="${#fields.hasErrors('sede')}" th:errors="*{sede}">Nombre no valido</span>  
 </div>
 <div class="form-group">
@@ -85,14 +91,57 @@
     <td th:text="${c.sede}"></td>
     <td th:text="${c.descripcion}"></td>
     <td><a th:href="${'/editarCurso' + c.ccurso}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
-    <td><a th:href="${'/deletecurso'+c.ccurso}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+     <td><a href="#" class="btn btn-danger linkDelete" th:id="${c.ccurso}"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
   
     </tr>
   </tbody>
   
-  </table>  
+  </table>
+    <h3 style="color:red" th:text="${messagevacio}" align="center"></h3>  
   </div>
   </div>
   </div>
+   <!-- Modal -->
+	<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Eliminar Curso</h4>
+				</div>
+				<div class="modal-body">
+					<p>Desea eliminar el curso seleccionado?</p>
+					<p style="color:red">Nota: si el curso es usado por otro registro no se podra eliminar del sistema</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+					<button id="btnDelete" class="btn btn-danger">
+						<i class="glyphicon glyphicon-remove-sign"></i> Eliminar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+	<script type="text/javascript">
+		$(function() {
+
+			var idCurso = null;
+
+			$('.linkDelete').on('click', function(e) {
+				e.preventDefault();
+				$('#modalDelete').modal();
+				idCurso = $(this).attr('id');
+			});
+
+			$('#btnDelete').on('click', function() {
+				location.href = "/deletecurso" + idCurso;
+			});
+
+		});
+	</script>
 </body>
 </html>

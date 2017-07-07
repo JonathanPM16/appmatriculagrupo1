@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+
 @Entity
 public class salon 
 {
@@ -17,9 +18,9 @@ public class salon
 	
 	@Min(100)
 	@Max(999)
-	private int nombre;
+	private int nombre=100;
 	
-	@Size(min=2, max=45)
+	@Size(min=2, max=45, message="la descripción debe contener entre 2 a 45 caracteres")
 	private String descripcion;
 	
 	public int getCsalon() 

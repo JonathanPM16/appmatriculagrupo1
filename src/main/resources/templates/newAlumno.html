@@ -21,9 +21,9 @@ return true;
  
 return /\d/.test(String.fromCharCode(keynum));
 }
-</script>
+</script>   
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <div th:switch="${session.usuariologeado.cadmin}">
 <div th:case="null">ERROR</div>
@@ -32,6 +32,10 @@ return /\d/.test(String.fromCharCode(keynum));
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <h1 align="center">Registro de Alumno</h1><br/>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
 <p style="color:red" align="center" th:text="${message}"></p>
@@ -64,6 +68,7 @@ return /\d/.test(String.fromCharCode(keynum));
  <label for="dni" >DNI: </label>
  <input id="dni" class="form-control"  type="text" th:field="*{dni}" maxlength="8" onkeypress="return justNumbers(event);"/>
  <span style="color:red" th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}">DNI no valido</span>
+ <p style="color:red" th:text="${messagedni}"></p>
 </div>
 <div class="form-group">
 <label for="colegio" >Colegio de procedencia:</label>
@@ -82,13 +87,14 @@ return /\d/.test(String.fromCharCode(keynum));
 </select>
 </div>
 <div class="form-group">
- <label for="fnacimientoalumno" >Fecha de Nacimiento: </label>
- <input id="fnacimientoalumno" class="form-control"  type="date" th:field="*{fnacimientoalumno}" />
+    <label for="fnacimiento" >Fecha de Nacimiento: </label>
+    <input type="date" class="form-control" id="fnacimiento" max="2001-12-31" min="1990-01-01" th:field="*{fnacimientoalumno}" />
+ <span class="add-on"><i class="icon-th"></i></span>
  <span style="color:red" th:if="${#fields.hasErrors('fnacimientoalumno')}" th:errors="*{fnacimientoalumno}">Fecha no valida</span>
 </div>
 <div class="form-group">
   <label>Sexo:</label>
-  <label class="radio-inline"><input type="radio" th:field="*{genero}"  name="sexo" value="Masculino"/> Masculino</label>
+  <label class="radio-inline"><input type="radio" th:field="*{genero}"  name="sexo" value="Masculino" checked="checked"/> Masculino</label>
   <label class="radio-inline"><input type="radio" th:field="*{genero}"  name="sexo" value="Femenino"/> Femenino</label>
 <span style="color:red" th:if="${#fields.hasErrors('genero')}" th:errors="*{genero}">Fecha no valida</span><br/><br/>
 </div>
@@ -101,6 +107,7 @@ return /\d/.test(String.fromCharCode(keynum));
 </div>
 <div class="col-md-3"></div>
 <br/>
+
 <table class="table">
   <thead class="thead-default">
    	<tr class="active">
@@ -128,7 +135,7 @@ return /\d/.test(String.fromCharCode(keynum));
     <td th:text="${a.fnacimientoalumno}"></td>
     <td th:text="${a.genero}"></td>
     <td><a th:href="${'/editarAlumno' + a.calumno}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
-    <td><a th:href="${'/deletealumno'+a.calumno}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+    <td><a href="#" class="btn btn-danger linkDelete" th:id="${a.calumno}"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
     
     </tr>
   
@@ -136,10 +143,52 @@ return /\d/.test(String.fromCharCode(keynum));
   </tbody>
   
   </table>
-  
+  <h3 style="color:red" th:text="${messagevacio}" align="center"></h3>
   
   </div>
   </div>
  </div>
+ <!-- Modal -->
+	<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Eliminar Alumno</h4>
+				</div>
+				<div class="modal-body">
+					<p>¿Desea eliminar el alumno seleccionado?</p>
+					<p style="color:red">Nota: si el alumno esta matriculado no se podra eliminar del sistema</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+					<button id="btnDelete" class="btn btn-danger">
+						<i class="glyphicon glyphicon-remove-sign"></i> Eliminar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+	<script type="text/javascript">
+		$(function() {
+
+			var idAlumno = null;
+
+			$('.linkDelete').on('click', function(e) {
+				e.preventDefault();
+				$('#modalDelete').modal();
+				idAlumno = $(this).attr('id');
+			});
+
+			$('#btnDelete').on('click', function() {
+				location.href = "/deletealumno" + idAlumno;
+			});
+
+		});
+	</script>
 </body>
 </html>

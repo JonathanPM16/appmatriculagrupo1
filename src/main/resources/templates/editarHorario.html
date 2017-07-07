@@ -4,7 +4,7 @@
 <title>Editar Horario</title>
  <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
 <div class="col-md-2"></div>
@@ -68,12 +68,12 @@
     <span style="color:red" th:if="${#fields.hasErrors('dia')}" th:errors="*{dia}">Nombre no valido</span><br/><br/>
    <div class="form-group">
    <label>Hora de Inicio:</label>
-   <input type="number" class="form-control" th:field="*{horainicio}" min="7" max="22"></input>
+   <input type="number" class="form-control" th:field="*{horainicio}" min="7" max="22" onkeydown="return false"></input>
     <span style="color:red" th:if="${#fields.hasErrors('horainicio')}" th:errors="*{horainicio}">Nombre no valido</span><br/><br/>
     </div>
     <div class="form-group">
     <label>Hora de Termino: </label>
-   <input type="number" class="form-control" th:field="*{horafin}" min="8" max="23"></input>
+   <input type="number" class="form-control" th:field="*{horafin}" min="8" max="23" onkeydown="return false"></input>
     <span style="color:red" th:if="${#fields.hasErrors('horafin')}" th:errors="*{horafin}">Nombre no valido</span><br/><br/>
     </div>
     <p style="color:red" th:text="${messagehorasnovalidas}"></p>

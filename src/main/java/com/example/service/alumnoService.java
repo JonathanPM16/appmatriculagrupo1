@@ -10,5 +10,6 @@ public interface alumnoService {
 	Iterable<alumno> listAllAlumno();
 	void deleteAlumno(int id);
 	alumno getporcalumno(int calumno);
+	alumno getporDNI(String dni);
 
 }

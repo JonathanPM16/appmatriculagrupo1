@@ -35,4 +35,10 @@ public class salonServiceImpl implements salonService
 	{
 		return salonRep.findOne(csalon);
 	}
+
+	@Override
+	public salon getByNumero(int nombre) {
+		// TODO Auto-generated method stub
+		return salonRep.findByNombre(nombre);
+	}
 }

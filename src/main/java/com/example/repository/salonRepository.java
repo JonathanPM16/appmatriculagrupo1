@@ -12,4 +12,5 @@ import com.example.entities.salon;
 public interface salonRepository extends CrudRepository<salon, Integer>
 {
 
+	salon findByNombre(int nombre);
 }

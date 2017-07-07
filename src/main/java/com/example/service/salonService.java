@@ -8,4 +8,5 @@ public interface salonService
 	Iterable<salon> listAllSalon();
 	void deleteSalon(int id);
 	salon getByCSalon(int csalon);
+	salon getByNumero(int nombre);
 }

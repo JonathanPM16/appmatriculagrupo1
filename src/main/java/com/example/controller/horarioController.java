@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.entities.horario;
 import com.example.entities.seccion;
@@ -40,17 +41,23 @@ public class horarioController {
 		model.addAttribute("secciones", seccionSer.listAllSeccion());
 		model.addAttribute("salones", salonSer.listAllSalon());
 		model.addAttribute("horario", new horario());
+		if(horarioSer.ListAllHorario().spliterator().getExactSizeIfKnown()==0){
+			model.addAttribute("messagevacio", "NO HAY REGISTROS");
+		}
 		return "newHorario";
 	}
 	
 	@RequestMapping(value="/horario/new", method=RequestMethod.POST)
-	public String saveHorario(@Valid horario h, Model model, BindingResult result, @RequestParam int horainicio, @RequestParam int horafin){
+	public String saveHorario(@Valid horario h, Model model, BindingResult result, @RequestParam int horainicio, @RequestParam int horafin, RedirectAttributes ra){
 		try {
 			if (result.hasErrors()) {
 				model.addAttribute("message", result.toString());
 				model.addAttribute("secciones", seccionSer.listAllSeccion());
 				model.addAttribute("salones", salonSer.listAllSalon());
 				model.addAttribute("horarios", horarioSer.ListAllHorario());
+				if(horarioSer.ListAllHorario().spliterator().getExactSizeIfKnown()==0){
+					model.addAttribute("messagevacio", "NO HAY REGISTROS");
+				}
 				return "newHorario";
 			}
 			else if(horainicio>=horafin)
@@ -59,6 +66,9 @@ public class horarioController {
 				model.addAttribute("secciones", seccionSer.listAllSeccion());
 				model.addAttribute("salones", salonSer.listAllSalon());
 				model.addAttribute("horarios", horarioSer.ListAllHorario());
+				if(horarioSer.ListAllHorario().spliterator().getExactSizeIfKnown()==0){
+					model.addAttribute("messagevacio", "NO HAY REGISTROS");
+				}
 				return "newHorario";
 			}
 			else
@@ -73,7 +83,7 @@ public class horarioController {
 						}
 						else
 						{
-							model.addAttribute("messagehorasnovalidas", "ERROR: En este día este SALÓN ya es utilizado durante algún momento entre las horas seleccionadas.");
+							model.addAttribute("messageerror", "ERROR: En este día este SALÓN ya es utilizado durante algún momento entre las horas seleccionadas.");
 							model.addAttribute("secciones", seccionSer.listAllSeccion());
 							model.addAttribute("salones", salonSer.listAllSalon());
 							model.addAttribute("horarios", horarioSer.ListAllHorario());
@@ -88,7 +98,7 @@ public class horarioController {
 						}
 						else
 						{
-							model.addAttribute("messagehorasnovalidas", "ERROR: En este día este PROFESOR ya enseña durante algún momento entre las horas seleccionadas.");
+							model.addAttribute("messageerror", "ERROR: En este día este PROFESOR ya enseña durante algún momento entre las horas seleccionadas.");
 							model.addAttribute("secciones", seccionSer.listAllSeccion());
 							model.addAttribute("salones", salonSer.listAllSalon());
 							model.addAttribute("horarios", horarioSer.ListAllHorario());
@@ -98,6 +108,7 @@ public class horarioController {
 				}	
 			}
 			horarioSer.saveHorario(h);
+			ra.addFlashAttribute("messageregistro", "Horario registrado con exito");
 			return "redirect:/nuevohorario";
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -114,11 +125,14 @@ public class horarioController {
 		seccion s = horarioSer.getHorario(chorario).getSeccion();
 		if(matriculaSer.listarXSeccion(s).size()!=0)
 		{
-			model.addAttribute("messagehorasnovalidas", "ERROR: No se puede eliminar un HORARIO de una SECCIÓN en la cual exista una MATRÍCULA registrada.");
+			model.addAttribute("messageerror", "ERROR: No se puede eliminar un HORARIO de una SECCIÓN en la cual exista una MATRÍCULA registrada.");
 			model.addAttribute("secciones", seccionSer.listAllSeccion());
 			model.addAttribute("salones", salonSer.listAllSalon());
 			model.addAttribute("horarios", horarioSer.ListAllHorario());
 			model.addAttribute("horario", new horario());
+			if(horarioSer.ListAllHorario().spliterator().getExactSizeIfKnown()==0){
+				model.addAttribute("messagevacio", "NO HAY REGISTROS");
+			}
 			return "newHorario";
 		}
 		horarioSer.deleteHorario(chorario);

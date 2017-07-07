@@ -11,5 +11,5 @@ import com.example.entities.alumno;
 @Transactional
 public interface alumnoRepository extends CrudRepository<alumno, Integer> {
 
-	
+	alumno findByDni(String dni);
 }

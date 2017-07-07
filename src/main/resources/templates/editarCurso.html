@@ -4,15 +4,21 @@
 <title>Editar Curso</title>
 <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <!--/*/ <th:block th:include="fragments/header2 :: header"></th:block> /*/-->
 <h1 align="center">Editar Curso</h1><br/>
+<h3 align="center" style="color:red" th:text="${messageerror}"></h3>
+<h3 align="center" style="color:red" th:text="${messageespacios}"></h3>
+<h3 align="center" style="color:green" th:text="${message}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
+<h3 align="center" style="color:green" th:text="${messageeditado}"></h3>
 <div class="col-md-3"></div>
 <div class="col-md-6">
 <div class="panel panel-info">
  <div class="panel-body">
-<form th:object="${curso}" th:action="@{/curso/new}" method="post">
+<form th:object="${curso}" th:action="@{/curso/update}" method="post">
 <input type="hidden" th:field="*{ccurso}" />
 <div class="form-group">
   <label for="nombrecurso" >Nombre del Curso:</label>
@@ -40,10 +46,10 @@
 </div>
 <div class="form-group">
  <label>Sede:</label> <br/>
-  <input type="checkbox" th:field="*{sede}"  name="sede" value="VI "/> Sede Villa<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="SI "/> Sede San Isidro<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="MO "/> Sede Monterrico<br/>
-  <input type="checkbox" th:field="*{sede}" name="sede" value="SM "/> Sede San Miguel<br/>
+  <input type="radio" th:field="*{sede}"  name="sede" value="VI "/> Sede Villa<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="SI "/> Sede San Isidro<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="MO "/> Sede Monterrico<br/>
+  <input type="radio" th:field="*{sede}" name="sede" value="SM "/> Sede San Miguel<br/>
 <span style="color:red" th:if="${#fields.hasErrors('sede')}" th:errors="*{sede}">Nombre no valido</span>  
 </div>
 <div class="form-group">

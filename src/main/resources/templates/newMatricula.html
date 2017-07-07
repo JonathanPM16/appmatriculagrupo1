@@ -4,7 +4,7 @@
 <title>Registro de Matricula</title>
   <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
-<body>
+<body background="images/fondo.png">
 <div class="container">
 <div th:switch="${session.usuariologeado.cadmin}">
 <div th:case="null">ERROR</div>
@@ -13,9 +13,11 @@
 <div class="col-md-2"></div>
 <div class="col-md-8">
 <h1 align="center">Registro de Matricula</h1><br/>
+<h3 align="center" style="color:red" th:text="${message}"></h3>
+<h3 align="center" style="color:green" th:text="${messageexito}"></h3>
+<h3 align="center" style="color:green" th:text="${messageregistro}"></h3>
 <div class="panel panel-info">
  <div class="panel-body">
-<p style="color:red" align="center" th:text="${message}"></p>
 <form th:object="${matricula}" th:action="@{/matricula/new}" method="post">
    <label>Alumno:</label>
    <table class="table table-bordered">
@@ -108,12 +110,53 @@
           <td th:text="${m.seccion.nombreseccion+ ' '+m.seccion.curso.nombrecurso}"></td>
           <td th:text="${m.seccion.nummatriculados}"></td>
           <td><a th:href="${'/editarMatricula' + m.cmatricula}" class="btn btn-primary" role="button"><span class="glyphicon glyphicon-pencil"></span> Update</a></td>
-          <td><a th:href="${'/deleteMatricula' + m.cmatricula}" class="btn btn-danger" role="button"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
+           <td><a href="#" class="btn btn-danger linkDelete" th:id="${m.cmatricula}"><span class="glyphicon glyphicon-remove"></span> Delete</a></td>
        </tr>
       </tbody>
     </table>
     </div>
     </div>
     </div>
+    <!-- Modal -->
+	<div id="modalDelete" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Eliminar Matricula</h4>
+				</div>
+				<div class="modal-body">
+					<p>Desea eliminar la matricula seleccionada?</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+					<button id="btnDelete" class="btn btn-danger">
+						<i class="glyphicon glyphicon-remove-sign"></i> Eliminar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /.modal -->
+	<script type="text/javascript">
+		$(function() {
+
+			var idAlumno = null;
+
+			$('.linkDelete').on('click', function(e) {
+				e.preventDefault();
+				$('#modalDelete').modal();
+				idAlumno = $(this).attr('id');
+			});
+
+			$('#btnDelete').on('click', function() {
+				location.href = "/deleteMatricula" + idAlumno;
+			});
+
+		});
+	</script>
 </body>
 </html>

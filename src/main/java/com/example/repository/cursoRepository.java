@@ -11,4 +11,5 @@ import com.example.entities.curso;
 @Transactional
 public interface cursoRepository extends CrudRepository<curso, Integer>{
 
+	curso findByNombrecursoAndModalidadAndFacultadAndSede(String nombrecurso, String modalidad, String facultad, String sede);
 }

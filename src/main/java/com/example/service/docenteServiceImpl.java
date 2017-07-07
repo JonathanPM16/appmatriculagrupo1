@@ -35,5 +35,11 @@ public class docenteServiceImpl implements docenteService {
 		// TODO Auto-generated method stub
 		return docenterep.findOne(cdocente);
 	}
+
+	@Override
+	public docente getporDNI(String dni) {
+		// TODO Auto-generated method stub
+		return docenterep.findByDni(dni);
+	}
 	
 }
